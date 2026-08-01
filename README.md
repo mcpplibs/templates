@@ -5,13 +5,11 @@
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Module](https://img.shields.io/badge/module-ok-green.svg)](https://en.cppreference.com/w/cpp/language/modules)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE)
-[![ci-linux](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml/badge.svg)](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml)
-[![ci-macos](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml/badge.svg)](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml)
-[![ci-windows](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml)
 
 | **English** - [简体中文](README.zh.md) - [繁體中文](README.zh.hant.md) |
 |:---:|
 | [mcpp build tool](https://github.com/mcpp-community/mcpp) · [package index](https://github.com/mcpplibs/mcpp-index) · [architecture](docs/architecture.md) · [Issues](https://github.com/mcpplibs/template/issues) |
+| [![ci-linux](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml/badge.svg?branch=main)](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml) [![ci-macos](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml/badge.svg?branch=main)](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml) [![ci-windows](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml/badge.svg?branch=main)](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml) |
 
 A template repository for building **modern C++ modular libraries** with the mcpp build tool:
 one library module, one gtest suite, one consumer example, project templates other people can

@@ -5,13 +5,11 @@
 [![C++23](https://img.shields.io/badge/C%2B%2B-23-blue.svg)](https://en.cppreference.com/w/cpp/23)
 [![Module](https://img.shields.io/badge/module-ok-green.svg)](https://en.cppreference.com/w/cpp/language/modules)
 [![License](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](LICENSE)
-[![ci-linux](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml/badge.svg)](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml)
-[![ci-macos](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml/badge.svg)](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml)
-[![ci-windows](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml)
 
 | [English](README.md) - [简体中文](README.zh.md) - **繁體中文** |
 |:---:|
 | [mcpp 建置工具](https://github.com/mcpp-community/mcpp) · [套件索引](https://github.com/mcpplibs/mcpp-index) · [架構文件](docs/architecture.zh.hant.md) · [Issues](https://github.com/mcpplibs/template/issues) |
+| [![ci-linux](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml/badge.svg?branch=main)](https://github.com/mcpplibs/template/actions/workflows/ci-linux.yml) [![ci-macos](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml/badge.svg?branch=main)](https://github.com/mcpplibs/template/actions/workflows/ci-macos.yml) [![ci-windows](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml/badge.svg?branch=main)](https://github.com/mcpplibs/template/actions/workflows/ci-windows.yml) |
 
 一個基於 mcpp 建置工具的**現代 C++ 模組化函式庫**範本倉庫：一個函式庫模組、一組 gtest 測試、
 一個使用方範例、可供他人建立專案的範本，以及 Linux / macOS / Windows 三平台 CI。
