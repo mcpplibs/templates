@@ -1,0 +1,8 @@
+// {{project.name}} — generated from {{self.name}}@{{self.version}}:basic
+import std;
+import mcpplibs.{{self.name}};
+
+int main() {
+    std::println("{}", mcpplibs::{{self.name}}::hello_mcpplibs());
+    return 0;
+}

@@ -1,0 +1,67 @@
+name: ci-linux
+
+# Linux CI — the same path a user walks after `Use this template`:
+#   xlings install (project env, pinned by .xlings.json) → build → test →
+#   example → templates/ smoke.
+#
+# Split per OS on purpose (ci-macos.yml / ci-windows.yml are the same flow):
+# one badge and one log per platform, and a macOS/Windows toolchain problem
+# never hides behind a green Linux run.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-linux-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pinned rather than "newest": a bootstrap that floats turns an upstream
+  # release into a red build on an unrelated PR. Floor is xlings 0.4.69
+  # (the index keys by (namespace, name) from there on) — never pin below it.
+  XLINGS_VERSION: v2026.7.28.4
+  XLINGS_NON_INTERACTIVE: '1'
+
+jobs:
+  build-test:
+    name: build + test (linux x86_64)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install xlings
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/openxlings/xlings/main/tools/other/quick_install.sh \
+            | bash -s "$XLINGS_VERSION"
+          echo "$HOME/.xlings/subos/current/bin" >> "$GITHUB_PATH"
+
+      - name: Install project tools (.xlings.json → mcpp)
+        run: |
+          # The xlings release bundles a package-index snapshot frozen at build
+          # time; refresh it so the pinned mcpp version resolves.
+          xlings update
+          xlings install -y
+          mcpp --version
+
+      - name: Build library
+        run: mcpp build
+
+      - name: Run tests
+        run: mcpp test
+
+      - name: Run example
+        run: |
+          cd examples/basic
+          mcpp run
+
+      - name: Smoke-test templates/
+        run: bash tools/template_smoke.sh

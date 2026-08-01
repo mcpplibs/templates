@@ -1,0 +1,16 @@
+[package]
+name        = "{{project.name}}"
+version     = "0.1.0"
+description = "A C++23 module library built on mcpplibs.{{self.name}}"
+license     = "Apache-2.0"
+
+# The lib-root module defaults to src/<package name>.cppm; this template ships a
+# fixed file name, so point the convention at it explicitly.
+[lib]
+path = "src/lib.cppm"
+
+[dependencies.mcpplibs]
+{{self.name}} = "{{self.version}}"
+
+[dev-dependencies]
+gtest = "1.15.2"

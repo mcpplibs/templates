@@ -1,0 +1,13 @@
+// {{project.name}} — generated from {{self.name}}@{{self.version}}:lib
+export module {{project.name}};
+
+import std;
+import mcpplibs.{{self.name}};
+
+namespace {{project.name}} {
+
+export [[nodiscard]] std::string greet(std::string_view who) {
+    return std::format("{}, {}!", mcpplibs::{{self.name}}::hello_mcpplibs(), who);
+}
+
+} // namespace {{project.name}}

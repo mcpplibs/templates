@@ -1,27 +1,37 @@
-# mcpplibs template Agent Skills
+# mcpplibs template — Agent Skills
 
-用于指导 Agent 理解 mcpp/mcpplibs 模块库模板、查找外部资料，并在编写或审查 Modern/Module C++ 代码时遵循 mcpp-style-ref 规范。
+Skills that help an agent understand this mcpp/mcpplibs module-library template, look things up
+upstream, and follow the mcpp-style-ref rules when writing or reviewing Modern/Module C++.
 
-## 可用技能
+## Available Skills
 
-| 技能 | 说明 |
+| Skill | Contents |
 |------|------|
-| [more-details](more-details/SKILL.md) | mcpp、mcpplibs、包索引、依赖案例、xlings 等资料入口和任务指引 |
-| [mcpp-style-ref](mcpp-style-ref/SKILL.md) | 面向 mcpp 项目的 Modern/Module C++ (C++23) 命名、模块化与实践规则 |
+| [mcpp](mcpp/SKILL.md) | The mcpp build tool: commands, `mcpp.toml` fields, project conventions, shipping `templates/` |
+| [mcpp-index](mcpp-index/SKILL.md) | The package index: finding dependencies, namespace rules, publishing this library |
+| [mcpp-style-ref](mcpp-style-ref/SKILL.md) | Modern/Module C++23 naming, module organization and practice rules |
+| [more-details](more-details/SKILL.md) | Where to look things up — this repository, mcpp docs, the index, reference libraries, xlings |
 
-## 使用方式
+Start with `more-details` when you do not know where something lives; use `mcpp` and
+`mcpp-index` for tool and packaging questions; use `mcpp-style-ref` whenever you touch
+`.cppm` / `.cpp` files.
 
-要在 Cursor 中使用，请将技能软链接或复制到项目的 `.cursor/skills/`：
+## Usage
+
+To use them in Cursor, symlink or copy the skills into the project's `.cursor/skills/`:
 
 ```bash
 mkdir -p .cursor/skills
-ln -s ../../skills/more-details .cursor/skills/more-details
-ln -s ../../skills/mcpp-style-ref .cursor/skills/mcpp-style-ref
+for s in mcpp mcpp-index mcpp-style-ref more-details; do
+    ln -s "../../.agents/skills/$s" ".cursor/skills/$s"
+done
 ```
 
-或安装为个人技能：
+Or install them as personal skills:
 
 ```bash
-ln -s /path/to/mcpp-template/.agents/skills/more-details ~/.cursor/skills/more-details
-ln -s /path/to/mcpp-style-ref/skills/mcpp-style-ref ~/.cursor/skills/mcpp-style-ref
+ln -s /path/to/mcpp-template/.agents/skills/mcpp ~/.cursor/skills/mcpp
 ```
+
+Claude Code and other agents that read `.agents/skills/` pick them up from this directory
+directly.
