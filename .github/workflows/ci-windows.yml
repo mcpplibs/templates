@@ -1,0 +1,69 @@
+name: ci-windows
+
+# Windows CI — same flow as ci-linux.yml. xlings bootstraps from PowerShell;
+# everything after it runs in bash (git-bash ships on the runner), so the
+# build/test/example/template steps stay byte-identical to the other two
+# platforms instead of forking into a second dialect.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-windows-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Both installers read this: the shell one takes it as an argument or an env
+  # var, the PowerShell one defaults its -Version parameter to it.
+  XLINGS_VERSION: v2026.7.28.4
+  XLINGS_NON_INTERACTIVE: '1'
+
+jobs:
+  build-test:
+    name: build + test (windows x86_64)
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install xlings
+        shell: pwsh
+        run: |
+          irm https://raw.githubusercontent.com/openxlings/xlings/main/tools/other/quick_install.ps1 | iex
+
+          $xlingsbin = "$env:USERPROFILE\.xlings\subos\current\bin"
+          $env:PATH = "$xlingsbin;$env:PATH"
+          $xlingsbin | Out-File -Append -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Install project tools (.xlings.json → mcpp)
+        shell: pwsh
+        run: |
+          xlings update
+          xlings install -y
+          mcpp --version
+
+      - name: Build library
+        shell: bash
+        run: mcpp build
+
+      - name: Run tests
+        shell: bash
+        run: mcpp test
+
+      - name: Run example
+        shell: bash
+        run: |
+          cd examples/basic
+          mcpp run
+
+      - name: Smoke-test templates/
+        shell: bash
+        run: bash tools/template_smoke.sh

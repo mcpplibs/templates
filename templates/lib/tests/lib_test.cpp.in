@@ -1,0 +1,7 @@
+#include <gtest/gtest.h>
+
+import {{project.name}};
+
+TEST({{project.name}}Test, Greet) {
+    EXPECT_EQ({{project.name}}::greet("world"), "hello mcpplibs, world!");
+}

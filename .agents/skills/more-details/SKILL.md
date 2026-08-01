@@ -1,77 +1,95 @@
 ---
 name: more-details
-description: 为 mcpp/mcpplibs 模块库开发提供资料导航。适用于 Agent 需要了解 mcpp 工具、mcpp.toml、包索引、mcpplibs 生态、依赖案例、xlings 工具环境、或寻找更多外部资料链接时。
+description: Navigation for mcpp/mcpplibs module-library development — where to look things up in this repository and upstream. Use when an agent needs the mcpp tool, mcpp.toml, the package index, the mcpplibs ecosystem, reference libraries, the xlings tool environment, or more external links.
 ---
 
 # more-details
 
-这是 mcpp/mcpplibs 模块库开发的资料入口 skill。它只负责引导 Agent 去哪里查资料；具体实现仍以本仓库文件、mcpp 官方文档和实际命令输出为准。
+The lookup entry point for mcpp/mcpplibs module-library development. This skill only says
+*where* to look; the answers themselves come from this repository's files, the upstream mcpp
+docs, and actual command output.
 
-## 使用原则
+## Principles
 
-- 先看本仓库入口，再跳外部资料。
-- 只读取当前任务需要的文档，不要一次性展开所有链接。
-- 涉及工具行为、包版本、索引内容时，以当前仓库文件和外部源的最新内容为准。
-- 写 C++23 模块代码时，同时使用 `mcpp-style-ref`。
+- Start with this repository, then follow links outward.
+- Read only what the task needs — do not expand every link at once.
+- For tool behavior, package versions and index contents, the current file or the live upstream
+  page wins over anything remembered.
+- When writing C++23 module code, also use `mcpp-style-ref`.
 
-## 本仓库入口
+## Sibling Skills
 
-- `README.md`：模板使用入口、AI Agent 提示词、外部资源链接。
-- `docs/architecture.md`：项目结构、mcpp 约定、依赖添加方式。
-- `.xlings.json`：声明项目工具环境。
-- `mcpp.toml`：包信息、依赖和测试依赖。
-- `src/mylib.cppm`：库模块接口示例。
-- `tests/mylib_test.cpp`：符合 mcpp 规范的 gtest 测试示例。
-- `examples/basic/`：独立使用方示例。
+| Skill | Use it for |
+|---|---|
+| [`mcpp`](../mcpp/SKILL.md) | Commands, `mcpp.toml` fields, project conventions, shipping `templates/` |
+| [`mcpp-index`](../mcpp-index/SKILL.md) | Finding dependencies, namespace rules, publishing to the index |
+| [`mcpp-style-ref`](../mcpp-style-ref/SKILL.md) | Modern/Module C++23 naming and structure |
 
-## 外部资源
+## This Repository
 
-### mcpp 工具
+- `README.md` (`README.zh.md`, `README.zh.hant.md`) — entry point, quick start, agent prompt, links.
+- `docs/architecture.md` (`.zh.md`, `.zh.hant.md`) — structure, mcpp conventions, dependencies, templates, CI.
+- `.xlings.json` — the project tool environment (which mcpp version builds this).
+- `mcpp.toml` — package metadata, dependencies, dev-dependencies.
+- `src/mylib.cppm` — the library module interface.
+- `tests/mylib_test.cpp` — a gtest suite matching the `mcpp test` conventions.
+- `examples/basic/` — a standalone consumer package.
+- `templates/` — project templates shipped with the library (`basic`, `lib`).
+- `tools/template_smoke.sh` — renders and builds every template against this checkout.
+- `.github/workflows/ci-{linux,macos,windows}.yml` — per-platform CI.
 
-- mcpp 仓库：https://github.com/mcpp-community/mcpp
-- mcpp 文档：https://github.com/mcpp-community/mcpp/tree/main/docs
-- 快速开始：https://github.com/mcpp-community/mcpp/blob/main/docs/00-getting-started.md
-- 示例文档：https://github.com/mcpp-community/mcpp/blob/main/docs/01-examples.md
-- `mcpp.toml` 指南：https://github.com/mcpp-community/mcpp/blob/main/docs/05-mcpp-toml.md
+## Upstream
 
-优先用这些资料确认：
+### The mcpp tool
 
-- `mcpp build`、`mcpp test`、`mcpp run` 的行为。
-- `src/*.cppm`、`src/main.cpp`、`tests/**/*.cpp` 的默认推断规则。
-- `[dependencies]`、`[dependencies.<namespace>]`、`[dev-dependencies]` 和目标覆盖配置。
+- Repository: https://github.com/mcpp-community/mcpp
+- Docs: https://github.com/mcpp-community/mcpp/tree/main/docs (Chinese under `docs/zh/`)
+- Getting started: `docs/00-getting-started.md` · Examples: `docs/01-examples.md`
+- `mcpp.toml` guide: `docs/05-mcpp-toml.md` · Workspaces: `docs/06-workspace.md`
 
-### 包索引与生态
+Use these to confirm:
 
-- mcpp 包索引：https://github.com/mcpp-community/mcpp-index
-- mcpplibs 组织：https://github.com/mcpplibs
-- 依赖库参考案例：https://github.com/mcpplibs/cmdline
+- the behavior of `mcpp build`, `mcpp test`, `mcpp run`, `mcpp new --template`;
+- the inference rules for `src/*.cppm`, `src/main.cpp`, `tests/**/*.cpp`;
+- `[dependencies]`, `[dependencies.<namespace>]`, `[dev-dependencies]`, target overrides.
 
-添加依赖时优先检查包索引；需要看真实库写法时参考 `mcpplibs/cmdline`。默认直接 `import <module>;`，不要在主模块里默认 `export import` 依赖。
+### Index and ecosystem
 
-### 编码风格
+- Package index: https://github.com/mcpplibs/mcpp-index · https://mcpplibs.github.io/mcpp-index/
+- mcpplibs organization: https://github.com/mcpplibs
+- Reference library — small and close to this template: https://github.com/mcpplibs/cmdline
+- Reference library — templates, i18n, multi-module: https://github.com/mcpplibs/llmapi
 
-- mcpp-style-ref 仓库：https://github.com/mcpp-community/mcpp-style-ref
-- 本仓库风格 skill：`.agents/skills/mcpp-style-ref/SKILL.md`
+Check the index before adding a dependency; read `cmdline`/`llmapi` when you want to see how a
+real library is shaped. Import modules directly — do not `export import` a dependency from the
+root module by default.
 
-写或改 `.cppm` / `.cpp` 文件时，遵循 C++23 模块风格：`import std`、模块名稳定、公开 API 简洁、测试不写自定义 `main()`。
+### Style
 
-### 工具环境
+- mcpp-style-ref: https://github.com/mcpp-community/mcpp-style-ref
+- Local copy: `.agents/skills/mcpp-style-ref/SKILL.md`
 
-- xlings：https://github.com/openxlings/xlings
+When writing or changing `.cppm` / `.cpp` files: `import std`, stable module names, a small
+public API, and tests without a custom `main()`.
 
-本模板通过 `.xlings.json` 声明项目工具环境。进入仓库后通常使用：
+### Tool environment
+
+- xlings: https://github.com/openxlings/xlings
+
+This template pins its tools in `.xlings.json`. After entering the repository:
 
 ```bash
-xlings install
-export PATH="$PWD/.xlings/subos/_/bin:$PATH"
+xlings install         # installs mcpp into the PROJECT environment (xlings install mcpp -g for global)
 mcpp --version
 ```
 
-## 常见任务指引
+## Common Tasks
 
-- **了解模板结构**：读 `README.md` 和 `docs/architecture.md`。
-- **确认 mcpp 配置写法**：读 `mcpp.toml` 和 mcpp 的 `05-mcpp-toml.md`。
-- **新增依赖**：查 `mcpp-index`，再参考 `mcpplibs/cmdline`。
-- **新增模块 API**：读 `mcpp-style-ref`，再改 `src/*.cppm`。
-- **新增测试**：参考 `tests/mylib_test.cpp`，用 `mcpp test` 验证。
-- **新增示例**：参考 `examples/basic/`，用独立 `mcpp.toml` 和 path 依赖。
+- **Understand the template** → `README.md` and `docs/architecture.md`.
+- **Confirm an `mcpp.toml` field** → `mcpp.toml`, the [`mcpp`](../mcpp/SKILL.md) skill, then upstream `docs/05-mcpp-toml.md`.
+- **Add a dependency** → the [`mcpp-index`](../mcpp-index/SKILL.md) skill, then `mcpplibs/cmdline` for a real example.
+- **Add a module API** → `mcpp-style-ref`, then edit `src/*.cppm`.
+- **Add a test** → follow `tests/mylib_test.cpp`, verify with `mcpp test`.
+- **Add an example** → follow `examples/basic/` — its own `mcpp.toml` with a path dependency.
+- **Add or change a template** → `templates/<name>/`, verify with `bash tools/template_smoke.sh`.
+- **Publish the library** → the [`mcpp-index`](../mcpp-index/SKILL.md) skill.
